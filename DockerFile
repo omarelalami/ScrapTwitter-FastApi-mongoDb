@@ -1,0 +1,28 @@
+FROM python:3.12.1
+
+# Définition du répertoire de travail
+WORKDIR /app
+
+# Copie des fichiers nécessaires
+COPY requirements.txt .
+
+# Installation des dépendances
+RUN pip install -r requirements.txt && rm requirements.txt
+
+# Clonage du dépôt Git
+RUN git clone https://github.com/votre-utilisateur/votre-repo.git .
+
+# Changement du répertoire de travail
+WORKDIR /app/detoxify/python
+
+# Installation des dépendances spécifiques à votre application
+RUN pip install -r requirements.txt
+
+# Copie du code source
+COPY main.py .
+
+# Exposer le port (si nécessaire)
+EXPOSE 8000
+
+# Commande d'entrée pour lancer votre application
+ENTRYPOINT ["python", "main.py"]
